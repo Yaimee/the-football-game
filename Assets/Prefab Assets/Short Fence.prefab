@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 591487625125598865, guid: 5e1213879c18d8f489893dc58e248648, type: 3}
       propertyPath: m_Name
-      value: Fence (2)
+      value: Short Fence
       objectReference: {fileID: 0}
     - target: {fileID: 3155949906650209505, guid: 5e1213879c18d8f489893dc58e248648, type: 3}
       propertyPath: m_RootOrder
@@ -17,7 +17,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3155949906650209505, guid: 5e1213879c18d8f489893dc58e248648, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.75188
+      value: 0.545707
       objectReference: {fileID: 0}
     - target: {fileID: 3155949906650209505, guid: 5e1213879c18d8f489893dc58e248648, type: 3}
       propertyPath: m_LocalPosition.x
