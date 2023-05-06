@@ -10,13 +10,13 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Hazard
   - Water
   - UI
   - Player
   - Ball
-  - 
-  - 
+  - ForBallBounce
+  - ForPlayerCollision
   - 
   - 
   - 
