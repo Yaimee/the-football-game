@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    //Death and Respawning
     [Header("Death and Respawning")]
     [Tooltip("How long after the player's death, in seconds, before they are respawned?")]
     public float respawnWaitTime = 2f;
@@ -12,12 +11,10 @@ public class Player : MonoBehaviour
     private Vector3 spawnPoint;
     private Quaternion spawnRotation;
     
-    //References
     [Header("References")]
     public Transform trans;
     public Transform modelTrans;
     public CharacterController characterController;
-    //Movement
     [Header("Movement")]
     [Tooltip("Units moved per second at maximum speed.")]
     public float movespeed = 24;
@@ -34,82 +31,70 @@ public class Player : MonoBehaviour
     private Vector3 movementVelocity = Vector3.zero;
 
     private void Movement()
-    {   
-        //If W or the up arrow key is held:
+    {
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            if (movementVelocity.z >= 0) //If we're already moving forward
-                //Increase Z velocity by VelocityGainPerSecond, but don't go higher than 'movespeed':
+            if (movementVelocity.z >= 0) 
                 movementVelocity.z = Mathf.Min(movespeed,movementVelocity.z + 
                                                          VelocityGainPerSecond * Time.deltaTime);//delta tager højde for framerate. Hvis der er lav framerate, blive tiden mellem frames multipliceret med VelocityGainPerSecond, for at beholde den samme fart på tværs af enheder.
-            else //Else if we're moving back
-                //Increase Z velocity by VelocityGainPerSecond, using the reverseMomentumMultiplier, but don't raise higher than 0:
+            else 
                 movementVelocity.z = Mathf.Min(0,movementVelocity.z +
                                                  VelocityGainPerSecond * reverseMomentumMultiplier * Time.deltaTime);
         }
-        //If S or the down arrow key is held:
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            if (movementVelocity.z > 0) //If we're already moving forward
+            if (movementVelocity.z > 0) 
                 movementVelocity.z = Mathf.Max(0, movementVelocity.z -
                                                   VelocityGainPerSecond * reverseMomentumMultiplier * Time.deltaTime);
-            else //If we're moving back or not moving at all
+            else 
                 movementVelocity.z = Mathf.Max(-movespeed, movementVelocity.z -
                                                            VelocityGainPerSecond * Time.deltaTime);
         }
-        else //If neither forward nor back are being held
+        else 
         {
-            //We must bring the Z velocity back to 0 over time.
-            if (movementVelocity.z > 0) //If we're moving up,
-                //Decrease Z velocity by VelocityLossPerSecond, but don't go any lower than 0:
+            if (movementVelocity.z > 0) 
                 movementVelocity.z = Mathf.Max(0,movementVelocity.z -
                                              VelocityLossPerSecond * Time.deltaTime);
-            else //If we're moving down,
-            //Increase Z velocity (back towards 0) by VelocityLossPerSecond, but don't go any higher than 0:
+            else 
                 movementVelocity.z = Mathf.Min(0,movementVelocity.z +
                                              VelocityLossPerSecond * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            if (movementVelocity.x >= 0) //If we're already moving right
-                //Increase X velocity by VelocityGainPerSecond, but don't go higher than 'movespeed':
+            if (movementVelocity.x >= 0) 
                 movementVelocity.x = Mathf.Min(movespeed,movementVelocity.x +
                                                          VelocityGainPerSecond * Time.deltaTime);
-            else //If we're moving left
-                //Increase x velocity by VelocityGainPerSecond, using the reverseMomentumMultiplier, but don't raise higher than 0:
+            else 
                 movementVelocity.x = Mathf.Min(0,movementVelocity.x +
                                                  VelocityGainPerSecond * reverseMomentumMultiplier * Time.deltaTime);
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
-            if (movementVelocity.x > 0) //If we're already moving right
+            if (movementVelocity.x > 0)
                 movementVelocity.x = Mathf.Max(0,movementVelocity.x -
                                                  VelocityGainPerSecond * reverseMomentumMultiplier * Time.deltaTime);
-            else //If we're moving left or not moving at all
+            else 
                 movementVelocity.x = Mathf.Max(-movespeed,movementVelocity.x -
                                                           VelocityGainPerSecond * Time.deltaTime);
         }
-        else //If neither right nor left are being held
+        else 
         {
-            //We must bring the X velocity back to 0 over time.
-            if (movementVelocity.x > 0) //If we're moving right,
-                //Decrease X velocity by VelocityLossPerSecond, but don't go any lower than 0:
+            if (movementVelocity.x > 0) 
+                
                 movementVelocity.x = Mathf.Max(0,movementVelocity.x -
                                                 VelocityLossPerSecond * 
                                                 Time.deltaTime);
-            else //If we're moving left,
-            //Increase X velocity (back towards 0) by VelocityLossPerSecond, but don't go any higher than 0:
+            else 
+            
                 movementVelocity.x = Mathf.Min(0,movementVelocity.x +
                                                 VelocityLossPerSecond * 
                                                 Time.deltaTime);
         }
         
-        //If the player is moving in either direction (left/right or up/down):
         if (movementVelocity.x != 0 || movementVelocity.z != 0)
         {
-            //Applying the movement velocity:
+            
             characterController.Move(movementVelocity * Time.deltaTime);
-            //Keeping the model holder rotated towards the last movement direction:
             modelTrans.rotation = Quaternion.Slerp(modelTrans.rotation,Quaternion.
                 LookRotation(movementVelocity*Time.deltaTime),.18F);
         }
@@ -146,7 +131,7 @@ public class Player : MonoBehaviour
         spawnPoint = trans.position;
         spawnRotation = modelTrans.rotation;
     }
-    // Update is called once per frame
+    
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.T)) 

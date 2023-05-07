@@ -4,70 +4,50 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Patroller : MonoBehaviour
-{   //Consts:
+{   
     private const float rotationSlerpAmount = .68f;
     [Header("References")]
     public Transform trans;
     public Transform modelHolder;
     [Header("Stats")]
     public float movespeed = 10;
-//Private variables:
     private int currentPointIndex;
     private Transform currentPoint;
     private Transform[] patrolPoints;
     
-    //Returns a List containing the Transform of each child
-    // with a name that starts with "Patrol Point (".
     private List<Transform> GetUnsortedPatrolPoints()
     {
-        //Get the Transform of each child in the Patroller:
-        Transform[] children = gameObject.GetComponentsInChildren<Transform>();
         
-        //Declare a local List storing Transforms:
+        Transform[] children = gameObject.GetComponentsInChildren<Transform>();
         var points = new List<Transform>();
         
-        //Loop through the child Transforms:
         for (int i = 0; i < children.Length; i++)
         {
-            //Check if the child's name starts with "Patrol Point (":
             if (children[i].gameObject.name.StartsWith("Patrol Point ("))
             {
-                //If so, add it to the 'points' List:
                 points.Add(children[i]);
             }
         }
-        //Return the point List:
         return points;
     }
     void Start()
     {
-        
-        //Get an unsorted list of patrol points:
         List<Transform> points = GetUnsortedPatrolPoints();
-        //Only continue if we found at least 1 patrol point:
+        
         if (points.Count > 0)
         {
             Debug.Log("Here");
-            //Prepare our array of patrol points:
             patrolPoints = new Transform[points.Count];
             for (int i = 0; i < points.Count; i++)
             {
-                //Quick reference to the current point:
                 Transform point = points[i];
-                
-                //Isolerer nummereret på patrolpointet:
                 int closingParenthesisIndex = point.gameObject.name.IndexOf(')');
                 string indexSubstring = point.gameObject.name.Substring(14, closingParenthesisIndex - 14);
-                //Convert the number from a string to an integer:
                 int index = Convert.ToInt32(indexSubstring);
-                //Set a reference in our script patrolPoints array:
                 patrolPoints[index] = point;
-                //Unparent each patrol point so it doesn't move with us:
                 point.SetParent(null);
-                //Hide patrol points in the Hierarchy:
                 point.gameObject.hideFlags = HideFlags.HideInHierarchy;
             }
-            //Start patrolling at the first point in the array:
             SetCurrentPatrolPoint(0);
         }
     }

@@ -18,10 +18,4 @@ public class Trigger : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>(); 
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

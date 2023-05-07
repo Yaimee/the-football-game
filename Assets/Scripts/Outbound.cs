@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Outbound : MonoBehaviour
 {
-    // Start is called before the first frame update
     public Player player;
     public void OnTriggerEnter(Collider other)
     {
@@ -20,11 +19,5 @@ public class Outbound : MonoBehaviour
             }
             
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
